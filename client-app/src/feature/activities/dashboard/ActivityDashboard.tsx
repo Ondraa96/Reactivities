@@ -7,12 +7,13 @@ import Loader from '../../../app/layout/Loader';
 
 export default observer(function ActivityDashboard() {
     const { activityStore } = useStore();
+    const { loadingInitial, loadActivities, activityRegistry } = activityStore;
 
     useEffect(() => {
-        activityStore.loadActivities();
-    }, [activityStore]);
+        if (activityRegistry.size <= 1) loadActivities();
+    }, [activityRegistry.size, loadActivities]);
 
-    if (activityStore.loadingInitial) return <Loader content='Loading app' />
+    if (loadingInitial) return <Loader content='Loading app' />
 
     return (
         <Grid>
