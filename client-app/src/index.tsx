@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app/layout/App';
 import './app/layout/styles.css';
+import { store, StoreContext } from './app/stores/store';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    <App />,
+    <StoreContext.Provider value={store}>
+        <App />
+    </StoreContext.Provider>,
     document.getElementById('root') as HTMLElement
 );
 
