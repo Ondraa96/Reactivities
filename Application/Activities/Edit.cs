@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 using System.Threading;
@@ -12,6 +13,14 @@ namespace Application.Activities
         public class Command : IRequest
         {
             public Activity Activity { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Activity).SetValidator(new ActivityValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -31,7 +40,7 @@ namespace Application.Activities
 
                 _mapper.Map(request.Activity, activity);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(CancellationToken.None);
 
                 return Unit.Value;
             }
