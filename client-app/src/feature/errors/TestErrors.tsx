@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, Header, Segment} from "semantic-ui-react";
+import { Button, Header, Segment } from "semantic-ui-react";
 import axios from 'axios';
 import ValidationErrors from './ValidationErrors';
 
@@ -24,7 +24,7 @@ export default function TestErrors() {
     }
 
     function handleBadGuid() {
-        axios.get(baseUrl + 'activities/notaguid').catch(err => console.log(err.response));
+        axios.get(baseUrl + 'activities/notaguid').catch(err => setErrors(err));
     }
 
     function handleValidationError() {
@@ -47,7 +47,6 @@ export default function TestErrors() {
             {errors &&
                 <ValidationErrors errors={errors} />
             }
-            
         </>
     )
 }

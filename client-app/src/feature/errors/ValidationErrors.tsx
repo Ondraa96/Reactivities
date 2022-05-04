@@ -5,8 +5,7 @@ interface Props {
     errors: string[] | null
 }
 
-export default function ValidationErrors({ errors }: Props) {
-    console.log(errors);
+export default function ValidationErrors({ errors }: Props) {    
     return (
         <Message error>
             {errors && (
