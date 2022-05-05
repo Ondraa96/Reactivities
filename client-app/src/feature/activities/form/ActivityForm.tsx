@@ -1,11 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import Loader from '../../../app/layout/Loader';
 import { useStore } from '../../../app/stores/store';
 import { v4 as uuid } from 'uuid'
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
+import TextInput from '../../../app/common/form/TextInput';
+import * as Yup from 'yup';
+import TextArea from '../../../app/common/form/TextArea';
 
 export default observer(function ActivityForm() {
     const history = useHistory();
@@ -23,6 +26,15 @@ export default observer(function ActivityForm() {
         date: '',
         city: '',
         venue: ''
+    });
+
+    const validationSchema = Yup.object({
+        title: Yup.string().required("The activity title is required"),
+        description: Yup.string().required(),
+        category: Yup.string().required(),
+        date: Yup.string().required(),
+        city: Yup.string().required(),
+        venue: Yup.string().required()
     });
 
     useEffect(() => {
@@ -47,18 +59,23 @@ export default observer(function ActivityForm() {
     //    }
     //}
 
-    if (loadingInitial) return <Loader content='Loading activity...' />
+    if (loadingInitial) return <Loader content='Loading...' />
     return (
         <Segment clearing>
-            <Formik enableReinitialize initialValues={activity} onSubmit={values => console.log(values)}>
-                {({ values: activity, handleSubmit, handleChange }) => (
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Input placeholder='Title' name='title' value={activity.title} onChange={handleChange} />
-                        <Form.TextArea placeholder='Description' name='description' value={activity.description} onChange={handleChange} />
-                        <Form.Input placeholder='Category' name='category' value={activity.category} onChange={handleChange} />
-                        <Form.Input type='date' placeholder='Date' name='date' value={activity.date} onChange={handleChange} />
-                        <Form.Input placeholder='City' name='city' value={activity.city} onChange={handleChange} />
-                        <Form.Input placeholder='Venue' name='venue' value={activity.venue} onChange={handleChange} />
+            <Formik
+                enableReinitialize
+                initialValues={activity}
+                onSubmit={values => console.log(values)}
+                validationSchema={validationSchema}
+            >
+                {({ handleSubmit }) => (
+                    <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
+                        <TextInput placeholder='Title' name='title' />
+                        <TextArea rows={3} placeholder='Description' name='description' />
+                        <TextInput placeholder='Category' name='category' />
+                        <TextInput placeholder='Date' name='date' />
+                        <TextInput placeholder='City' name='city' />
+                        <TextInput placeholder='Venue' name='venue' />
                         <Button loading={loading} floated='right' positive type='submit' content='Submit' />
                         <Button as={Link} to='/activities' floated='right' type='button' content='Cancel' />
                     </Form>

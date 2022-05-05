@@ -6,7 +6,7 @@ export default class ActivityStore {
     activityRegistry = new Map<string, Activity>();
     selectedActivity: Activity | undefined = undefined;
     loading = false;
-    loadingInitial = true;
+    loadingInitial = false;
     editMode = false;
 
     constructor() {
