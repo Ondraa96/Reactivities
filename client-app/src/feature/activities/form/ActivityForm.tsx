@@ -1,16 +1,17 @@
 import { observer } from 'mobx-react-lite';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { Button, Segment } from 'semantic-ui-react';
 import Loader from '../../../app/layout/Loader';
 import { useStore } from '../../../app/stores/store';
 import { v4 as uuid } from 'uuid'
-import { Formik, Form, Field } from 'formik';
-import TextInput from '../../../app/common/form/MyTextInput';
+import { Formik, Form } from 'formik';
+import MyTextInput from '../../../app/common/form/MyTextInput';
 import * as Yup from 'yup';
-import TextArea from '../../../app/common/form/MyTextArea';
-import SelectInput from '../../../app/common/form/MySelectInput';
+import MyTextArea from '../../../app/common/form/MyTextArea';
+import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
+import MyDateInput from '../../../app/common/form/MyDateInput';
 
 export default observer(function ActivityForm() {
     const history = useHistory();
@@ -72,12 +73,18 @@ export default observer(function ActivityForm() {
             >
                 {({ handleSubmit }) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
-                        <TextInput placeholder='Title' name='title' />
-                        <TextArea rows={3} placeholder='Description' name='description' />
-                        <SelectInput options={categoryOptions} placeholder='Category' name='category' />
-                        <TextInput placeholder='Date' name='date' />
-                        <TextInput placeholder='City' name='city' />
-                        <TextInput placeholder='Venue' name='venue' />
+                        <MyTextInput placeholder='Title' name='title' />
+                        <MyTextArea rows={3} placeholder='Description' name='description' />
+                        <MySelectInput options={categoryOptions} placeholder='Category' name='category' />
+                        <MyDateInput
+                            placeholderText='Date'
+                            name='date'
+                            showTimeSelect
+                            timeFormat='HH:mm'
+                            dateFormat='dd.MM.yyyy hh:mm'
+                        />
+                        <MyTextInput placeholder='City' name='city' />
+                        <MyTextInput placeholder='Venue' name='venue' />
                         <Button loading={loading} floated='right' positive type='submit' content='Submit' />
                         <Button as={Link} to='/activities' floated='right' type='button' content='Cancel' />
                     </Form>
