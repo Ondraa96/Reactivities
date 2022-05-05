@@ -6,10 +6,10 @@ import Loader from '../../../app/layout/Loader';
 import { useStore } from '../../../app/stores/store';
 import { v4 as uuid } from 'uuid'
 import { Formik, Form, Field } from 'formik';
-import TextInput from '../../../app/common/form/TextInput';
+import TextInput from '../../../app/common/form/MyTextInput';
 import * as Yup from 'yup';
-import TextArea from '../../../app/common/form/TextArea';
-import SelectInput from '../../../app/common/form/SelectInput';
+import TextArea from '../../../app/common/form/MyTextArea';
+import SelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 
 export default observer(function ActivityForm() {
