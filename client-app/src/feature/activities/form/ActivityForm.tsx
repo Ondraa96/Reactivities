@@ -9,6 +9,8 @@ import { Formik, Form, Field } from 'formik';
 import TextInput from '../../../app/common/form/TextInput';
 import * as Yup from 'yup';
 import TextArea from '../../../app/common/form/TextArea';
+import SelectInput from '../../../app/common/form/SelectInput';
+import { categoryOptions } from '../../../app/common/options/categoryOptions';
 
 export default observer(function ActivityForm() {
     const history = useHistory();
@@ -72,7 +74,7 @@ export default observer(function ActivityForm() {
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                         <TextInput placeholder='Title' name='title' />
                         <TextArea rows={3} placeholder='Description' name='description' />
-                        <TextInput placeholder='Category' name='category' />
+                        <SelectInput options={categoryOptions} placeholder='Category' name='category' />
                         <TextInput placeholder='Date' name='date' />
                         <TextInput placeholder='City' name='city' />
                         <TextInput placeholder='Venue' name='venue' />
