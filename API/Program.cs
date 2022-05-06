@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
+using System;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -26,8 +25,9 @@ namespace API
             try
             {
                 var dbContext = services.GetService<DataContext>();
+                var userManager = services.GetService<UserManager<AppUser>>();
                 await dbContext.Database.MigrateAsync();
-                await Seed.SeedData(dbContext);
+                await Seed.SeedData(dbContext, userManager);
             }
             catch (Exception ex)
             {
