@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -48,6 +49,39 @@ namespace API.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        {
+            if (await _userManager.Users.AnyAsync(u => u.Email == registerDto.Email)){
+                return BadRequest("Email taken");
+            }
+            if (await _userManager.Users.AnyAsync(u => u.UserName == registerDto.Username)){
+                return BadRequest("Username taken");
+            }
+
+            var user = new AppUser
+            {
+                DisplayName = registerDto.DisplayName,
+                Email = registerDto.Email, 
+                UserName = registerDto.Username
+            };
+
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (result.Succeeded)
+            {
+                return new UserDto
+                {
+                    DisplayName = user.DisplayName,
+                    Username = user.UserName,
+                    Token = _tokenService.CreateToken(user),
+                    Image = null
+                };
+            }
+
+            return BadRequest("Problem registering user");
         }
     }
 }
