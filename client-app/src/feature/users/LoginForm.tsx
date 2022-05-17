@@ -1,4 +1,3 @@
-import { error } from 'console';
 import { ErrorMessage, Form, Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
