@@ -14,6 +14,7 @@ import ServerError from '../../feature/errors/ServerError';
 import LoginForm from '../../feature/users/LoginForm';
 import { useStore } from '../stores/store';
 import Loader from './Loader';
+import ModalContainer from '../common/modals/ModalContainer';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
     return (
         <>
             <ToastContainer hideProgressBar position='bottom-right' />
+            <ModalContainer />
             <Route exact path='/' component={HomePage} />
             <Route
                 path={'/(.+)'}
